@@ -5,6 +5,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
 import { StatusBadge } from '@/components/user/StatusBadge';
+import { BankConnectionDialog } from '@/components/user/BankConnectionDialog';
 import { User, Calendar, MapPin, CreditCard, Shield } from 'lucide-react';
 
 export default function UserDashboard() {
@@ -126,14 +127,20 @@ export default function UserDashboard() {
 
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
                   <CreditCard className="w-5 h-5 text-muted-foreground" />
-                  <div>
+                  <div className="flex-1">
                     <p className="text-sm text-muted-foreground">Bank Account</p>
                     <p className="font-semibold">
-                      XXXXXXXX{profile?.bank_account_masked || 'XXXX'}
+                      {profile?.bank_account_masked 
+                        ? `XXXXXXXX${profile.bank_account_masked}` 
+                        : 'Not linked'}
                     </p>
                   </div>
                 </div>
 
+                {/* Bank Connection Button */}
+                <div className="md:col-span-2">
+                  <BankConnectionDialog />
+                </div>
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg md:col-span-2">
                   <MapPin className="w-5 h-5 text-muted-foreground" />
                   <div>

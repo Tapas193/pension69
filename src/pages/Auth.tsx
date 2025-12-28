@@ -4,12 +4,13 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { GovtHeader } from '@/components/layout/GovtHeader';
-import { MobileInput } from '@/components/auth/MobileInput';
-import { OtpInput } from '@/components/auth/OtpInput';
-import { Shield, Lock } from 'lucide-react';
+import { Shield, Lock, Mail, Eye, EyeOff, User } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
-type AuthStep = 'mobile' | 'otp';
+type AuthMode = 'login' | 'signup';
 
 export default function Auth() {
   const { t } = useLanguage();
@@ -17,10 +18,13 @@ export default function Auth() {
   const navigate = useNavigate();
   const { toast } = useToast();
   
-  const [step, setStep] = useState<AuthStep>('mobile');
+  const [mode, setMode] = useState<AuthMode>('login');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
   const [phone, setPhone] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
 
   // Redirect if already logged in
   useEffect(() => {
@@ -29,48 +33,14 @@ export default function Auth() {
     }
   }, [user, isAdmin, authLoading, navigate]);
 
-  const handleSendOtp = async (phoneNumber: string) => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
-    setError('');
-    
-    try {
-      const { error } = await supabase.auth.signInWithOtp({
-        phone: phoneNumber,
-        options: {
-          shouldCreateUser: true,
-        }
-      });
-
-      if (error) throw error;
-
-      setPhone(phoneNumber);
-      setStep('otp');
-      toast({
-        title: t('success'),
-        description: t('otpSent'),
-      });
-    } catch (err: any) {
-      console.error('OTP send error:', err);
-      setError(err.message || 'Failed to send OTP');
-      toast({
-        title: t('error'),
-        description: err.message || 'Failed to send OTP',
-        variant: 'destructive',
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleVerifyOtp = async (otp: string) => {
-    setIsLoading(true);
-    setError('');
 
     try {
-      const { error } = await supabase.auth.verifyOtp({
-        phone: phone,
-        token: otp,
-        type: 'sms',
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
 
       if (error) throw error;
@@ -79,17 +49,57 @@ export default function Auth() {
         title: t('success'),
         description: t('welcome'),
       });
-      // Navigation handled by useEffect
     } catch (err: any) {
-      console.error('OTP verify error:', err);
-      setError(t('invalidOtp'));
+      console.error('Login error:', err);
+      toast({
+        title: t('error'),
+        description: err.message || 'Login failed',
+        variant: 'destructive',
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleResendOtp = async () => {
-    await handleSendOtp(phone);
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const redirectUrl = `${window.location.origin}/`;
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: redirectUrl,
+          data: {
+            full_name: fullName,
+            phone: phone,
+          }
+        }
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: t('success'),
+        description: 'Account created successfully! You are now logged in.',
+      });
+    } catch (err: any) {
+      console.error('Signup error:', err);
+      let message = err.message || 'Signup failed';
+      if (err.message?.includes('already registered')) {
+        message = 'This email is already registered. Please login instead.';
+      }
+      toast({
+        title: t('error'),
+        description: message,
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (authLoading) {
@@ -108,7 +118,7 @@ export default function Auth() {
       
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
-          <div className="govt-card space-y-8">
+          <div className="govt-card space-y-6">
             {/* Trust Badge */}
             <div className="flex justify-center">
               <div className="trust-badge">
@@ -127,26 +137,123 @@ export default function Auth() {
             {/* Title */}
             <div className="text-center space-y-2">
               <h2 className="text-2xl font-bold text-foreground">
-                {t('login')}
+                {mode === 'login' ? t('login') : 'Create Account'}
               </h2>
               <p className="text-muted-foreground">
-                {step === 'mobile' ? t('mobileHint') : t('otpSent')}
+                {mode === 'login' 
+                  ? 'Enter your credentials to access the portal'
+                  : 'Register to access welfare schemes'}
               </p>
             </div>
 
             {/* Form */}
-            {step === 'mobile' ? (
-              <MobileInput onSubmit={handleSendOtp} isLoading={isLoading} />
-            ) : (
-              <OtpInput
-                phone={phone}
-                onVerify={handleVerifyOtp}
-                onBack={() => setStep('mobile')}
-                onResend={handleResendOtp}
-                isLoading={isLoading}
-                error={error}
-              />
-            )}
+            <form onSubmit={mode === 'login' ? handleLogin : handleSignup} className="space-y-4">
+              {mode === 'signup' && (
+                <>
+                  <div className="space-y-2">
+                    <Label htmlFor="fullName" className="text-lg font-medium">
+                      Full Name / पूरा नाम
+                    </Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <Input
+                        id="fullName"
+                        type="text"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        placeholder="Enter your full name"
+                        className="pl-10 h-14 text-lg"
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone" className="text-lg font-medium">
+                      Mobile Number / मोबाइल नंबर
+                    </Label>
+                    <Input
+                      id="phone"
+                      type="tel"
+                      value={phone}
+                      onChange={(e) => setPhone(e.target.value)}
+                      placeholder="+91 XXXXX XXXXX"
+                      className="h-14 text-lg"
+                    />
+                  </div>
+                </>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-lg font-medium">
+                  Email / ईमेल
+                </Label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="email"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Enter your email"
+                    className="pl-10 h-14 text-lg"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-lg font-medium">
+                  Password / पासवर्ड
+                </Label>
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                  <Input
+                    id="password"
+                    type={showPassword ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    className="pl-10 pr-12 h-14 text-lg"
+                    required
+                    minLength={6}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
+                </div>
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full h-14 text-lg font-semibold"
+                disabled={isLoading}
+              >
+                {isLoading 
+                  ? t('loading')
+                  : mode === 'login' 
+                    ? t('login')
+                    : 'Create Account'}
+              </Button>
+            </form>
+
+            {/* Toggle Mode */}
+            <div className="text-center pt-4 border-t border-border">
+              <p className="text-muted-foreground">
+                {mode === 'login' ? "Don't have an account?" : 'Already have an account?'}
+              </p>
+              <Button
+                variant="link"
+                onClick={() => setMode(mode === 'login' ? 'signup' : 'login')}
+                className="text-primary text-lg font-semibold"
+              >
+                {mode === 'login' ? 'Register Now' : 'Login'}
+              </Button>
+            </div>
           </div>
 
           {/* Footer Info */}

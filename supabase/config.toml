@@ -1,1 +1,4 @@
 project_id = "uyztcolntkfpxkanswuk"
+
+[functions.pension-chat]
+verify_jwt = false

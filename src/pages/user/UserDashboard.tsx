@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
+import { MobileNav } from '@/components/user/MobileNav';
 import { StatusBadge } from '@/components/user/StatusBadge';
 import { BankConnectionDialog } from '@/components/user/BankConnectionDialog';
 import { User, Calendar, MapPin, CreditCard, Shield } from 'lucide-react';
@@ -68,9 +69,11 @@ export default function UserDashboard() {
       <GovtHeader />
       
       <div className="flex flex-1">
-        <UserSidebar />
+        <div className="hidden md:block">
+          <UserSidebar />
+        </div>
         
-        <main className="flex-1 p-6 md:p-8">
+        <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
             {/* Welcome Section */}
             <div className="govt-card bg-gradient-to-r from-primary/5 to-secondary/5">
@@ -210,6 +213,8 @@ export default function UserDashboard() {
           </div>
         </main>
       </div>
+
+      <MobileNav />
     </div>
   );
 }

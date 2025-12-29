@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
+import { MobileNav } from '@/components/user/MobileNav';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { CheckSquare, CheckCircle, XCircle, ArrowRight, RotateCcw } from 'lucide-react';
@@ -340,9 +341,11 @@ export default function UserEligibility() {
       <GovtHeader />
       
       <div className="flex flex-1">
-        <UserSidebar />
+        <div className="hidden md:block">
+          <UserSidebar />
+        </div>
         
-        <main className="flex-1 p-6 md:p-8">
+        <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-2xl mx-auto space-y-6 animate-fade-in">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
@@ -405,6 +408,8 @@ export default function UserEligibility() {
           </div>
         </main>
       </div>
+
+      <MobileNav />
     </div>
   );
 }

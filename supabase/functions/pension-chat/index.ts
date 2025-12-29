@@ -11,12 +11,18 @@ serve(async (req) => {
   }
 
   try {
-    const { messages, language } = await req.json();
+    const { messages, language, location } = await req.json();
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
+
+    // Build location context
+    const locationContext = location 
+      ? `\n\nUser's Current Location: ${location.address || `${location.lat}, ${location.lng}`}
+Use this location to provide relevant local information about pension offices, scheme offices, or local helpline numbers.`
+      : '';
 
     const systemPrompt = language === 'hi' 
       ? `आप एक सहायक सरकारी पेंशन और कल्याण योजना सहायक हैं। आप लाभार्थियों को उनकी पेंशन स्थिति, भुगतान तिथियों, शिकायत अपडेट और योजना पात्रता के बारे में मदद करते हैं।
@@ -28,7 +34,7 @@ serve(async (req) => {
 - सरल, सम्मानजनक हिंदी में उत्तर दें
 - बुजुर्ग उपयोगकर्ताओं के लिए धैर्यवान और विनम्र रहें
 
-उत्तर संक्षिप्त और स्पष्ट रखें।`
+उत्तर संक्षिप्त और स्पष्ट रखें।${locationContext}`
       : `You are a helpful government pension and welfare scheme assistant. You help beneficiaries understand their pension status, payment dates, grievance updates, and scheme eligibility.
 
 Key responsibilities:
@@ -38,7 +44,7 @@ Key responsibilities:
 - Provide clear, respectful answers
 - Be patient and polite, especially for elderly users
 
-Keep responses concise and easy to understand.`;
+Keep responses concise and easy to understand.${locationContext}`;
 
     console.log("Sending request to Lovable AI Gateway...");
 

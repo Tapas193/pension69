@@ -4,6 +4,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
+import { MobileNav } from '@/components/user/MobileNav';
 import { StatusBadge } from '@/components/user/StatusBadge';
 import { FileText, Calendar, IndianRupee } from 'lucide-react';
 
@@ -43,9 +44,11 @@ export default function UserSchemes() {
       <GovtHeader />
       
       <div className="flex flex-1">
-        <UserSidebar />
+        <div className="hidden md:block">
+          <UserSidebar />
+        </div>
         
-        <main className="flex-1 p-6 md:p-8">
+        <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
@@ -143,6 +146,8 @@ export default function UserSchemes() {
           </div>
         </main>
       </div>
+
+      <MobileNav />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
+import { MobileNav } from '@/components/user/MobileNav';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Bot, Send, User, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -140,8 +141,10 @@ export default function UserAssistant() {
     <div className="min-h-screen bg-background flex flex-col">
       <GovtHeader />
       <div className="flex flex-1 overflow-hidden">
-        <UserSidebar />
-        <main className="flex-1 flex flex-col p-4 md:p-6">
+        <div className="hidden md:block">
+          <UserSidebar />
+        </div>
+        <main className="flex-1 flex flex-col p-4 md:p-6 pb-20 md:pb-6">
           {/* Header */}
           <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
@@ -256,6 +259,8 @@ export default function UserAssistant() {
           </div>
         </main>
       </div>
+
+      <MobileNav />
     </div>
   );
 }

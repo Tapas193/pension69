@@ -3,7 +3,7 @@ import { GovtHeader } from '@/components/layout/GovtHeader';
 import { UserSidebar } from '@/components/user/UserSidebar';
 import { MobileNav } from '@/components/user/MobileNav';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Bot, Send, User, Loader2 } from 'lucide-react';
+import { Bot, Send, User, Loader2, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
@@ -19,7 +19,52 @@ export default function UserAssistant() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [location, setLocation] = useState<{ lat: number; lng: number; address?: string } | null>(null);
+  const [locationLoading, setLocationLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Get user's real-time location
+  const getLocation = async () => {
+    setLocationLoading(true);
+    try {
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          enableHighAccuracy: true,
+          timeout: 10000,
+        });
+      });
+      
+      const { latitude, longitude } = position.coords;
+      
+      // Reverse geocoding to get address
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=${language}`
+      );
+      const data = await response.json();
+      
+      setLocation({
+        lat: latitude,
+        lng: longitude,
+        address: data.display_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+      });
+      
+      toast({
+        title: language === 'hi' ? 'स्थान प्राप्त हुआ' : 'Location Found',
+        description: data.display_name || `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`,
+      });
+    } catch (error) {
+      console.error('Location error:', error);
+      toast({
+        title: language === 'hi' ? 'स्थान त्रुटि' : 'Location Error',
+        description: language === 'hi' 
+          ? 'स्थान प्राप्त नहीं हो सका। कृपया अनुमति दें।'
+          : 'Could not get location. Please allow permission.',
+        variant: 'destructive',
+      });
+    } finally {
+      setLocationLoading(false);
+    }
+  };
 
   const scrollToBottom = () => {
     if (scrollRef.current) {
@@ -50,7 +95,12 @@ export default function UserAssistant() {
         },
         body: JSON.stringify({ 
           messages: [...messages, userMessage],
-          language 
+          language,
+          location: location ? {
+            address: location.address,
+            lat: location.lat,
+            lng: location.lng
+          } : null
         }),
       });
 
@@ -146,21 +196,49 @@ export default function UserAssistant() {
         </div>
         <main className="flex-1 flex flex-col p-4 md:p-6 pb-20 md:pb-6">
           {/* Header */}
-          <div className="flex items-center gap-3 mb-4 pb-4 border-b border-border">
-            <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
-              <Bot className="w-6 h-6 text-primary" />
+          <div className="flex items-center justify-between gap-3 mb-4 pb-4 border-b border-border">
+            <div className="flex items-center gap-3">
+              <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                <Bot className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-foreground">
+                  {language === 'hi' ? 'AI सहायक' : 'AI Assistant'}
+                </h1>
+                <p className="text-sm text-muted-foreground">
+                  {language === 'hi' 
+                    ? 'पेंशन और योजनाओं के बारे में प्रश्न पूछें'
+                    : 'Ask questions about pensions and schemes'}
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-foreground">
-                {language === 'hi' ? 'AI सहायक' : 'AI Assistant'}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                {language === 'hi' 
-                  ? 'पेंशन और योजनाओं के बारे में प्रश्न पूछें'
-                  : 'Ask questions about pensions and schemes'}
-              </p>
-            </div>
+            
+            {/* Location Button */}
+            <Button
+              variant={location ? "secondary" : "outline"}
+              size="sm"
+              onClick={getLocation}
+              disabled={locationLoading}
+              className="gap-2"
+            >
+              {locationLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <MapPin className="w-4 h-4" />
+              )}
+              {location 
+                ? (language === 'hi' ? 'स्थान जुड़ा' : 'Located') 
+                : (language === 'hi' ? 'स्थान जोड़ें' : 'Add Location')}
+            </Button>
           </div>
+
+          {/* Location Info */}
+          {location && (
+            <div className="mb-4 p-3 bg-muted rounded-lg flex items-center gap-2 text-sm">
+              <MapPin className="w-4 h-4 text-primary shrink-0" />
+              <span className="text-muted-foreground truncate">{location.address}</span>
+            </div>
+          )}
 
           {/* Chat Area */}
           <div 

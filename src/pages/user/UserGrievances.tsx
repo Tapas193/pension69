@@ -114,17 +114,17 @@ export default function UserGrievances() {
         
         <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
                   <MessageSquare className="w-6 h-6 text-primary" />
                 </div>
                 <div>
-                  <h1 className="text-2xl font-bold">{t('grievances')}</h1>
-                  <p className="text-muted-foreground">
+                  <h1 className="text-xl md:text-2xl font-bold">{t('grievances')}</h1>
+                  <p className="text-sm text-muted-foreground">
                     {language === 'hi' 
-                      ? 'अपनी शिकायतें दर्ज करें और ट्रैक करें'
-                      : 'Raise and track your grievances'}
+                      ? 'शिकायतें दर्ज करें'
+                      : 'Raise grievances'}
                   </p>
                 </div>
               </div>
@@ -132,7 +132,7 @@ export default function UserGrievances() {
               <Button
                 onClick={() => setShowForm(!showForm)}
                 size="lg"
-                className="gap-2"
+                className="gap-2 w-full md:w-auto"
               >
                 {showForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
                 {showForm 

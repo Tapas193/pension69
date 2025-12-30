@@ -7,6 +7,8 @@ import { UserSidebar } from '@/components/user/UserSidebar';
 import { MobileNav } from '@/components/user/MobileNav';
 import { StatusBadge } from '@/components/user/StatusBadge';
 import { BankConnectionDialog } from '@/components/user/BankConnectionDialog';
+import { ProfileEditDialog } from '@/components/user/ProfileEditDialog';
+import { LocationButton } from '@/components/user/LocationButton';
 import { User, Calendar, MapPin, CreditCard, Shield } from 'lucide-react';
 
 export default function UserDashboard() {
@@ -94,10 +96,18 @@ export default function UserDashboard() {
 
             {/* Profile Overview */}
             <div className="govt-card">
-              <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <User className="w-5 h-5 text-primary" />
-                {t('myProfile')}
-              </h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold flex items-center gap-2">
+                  <User className="w-5 h-5 text-primary" />
+                  {t('myProfile')}
+                </h2>
+                <ProfileEditDialog />
+              </div>
+              
+              {/* Location Button */}
+              <div className="mb-4">
+                <LocationButton size="lg" className="w-full md:w-auto" />
+              </div>
               
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">

@@ -122,39 +122,44 @@ export default function UserHelp() {
               </h2>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                  <Phone className="w-5 h-5 text-primary" />
-                  <div>
+                  <Phone className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
                     <p className="text-sm text-muted-foreground">
                       {language === 'hi' ? 'हेल्पलाइन' : 'Helpline'}
                     </p>
-                    <p className="font-semibold">1800-180-1234 (Toll Free)</p>
+                    <p className="font-semibold text-sm md:text-base">1800-180-4094 (Toll Free)</p>
+                    <p className="text-xs text-muted-foreground">0135-2710334 (Dehradun)</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                  <Mail className="w-5 h-5 text-primary" />
-                  <div>
+                  <Mail className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
                     <p className="text-sm text-muted-foreground">
                       {language === 'hi' ? 'ईमेल' : 'Email'}
                     </p>
-                    <p className="font-semibold">pension.help@rajasthan.gov.in</p>
+                    <p className="font-semibold text-sm md:text-base break-all">pension.uk@gov.in</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                  <Clock className="w-5 h-5 text-primary" />
-                  <div>
+                  <Clock className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
                     <p className="text-sm text-muted-foreground">
                       {language === 'hi' ? 'समय' : 'Timing'}
                     </p>
-                    <p className="font-semibold">Mon-Sat, 9:00 AM - 6:00 PM</p>
+                    <p className="font-semibold text-sm md:text-base">Mon-Sat, 10:00 AM - 5:00 PM</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
-                  <MapPin className="w-5 h-5 text-primary" />
-                  <div>
+                  <MapPin className="w-5 h-5 text-primary shrink-0" />
+                  <div className="min-w-0">
                     <p className="text-sm text-muted-foreground">
                       {language === 'hi' ? 'कार्यालय' : 'Office'}
                     </p>
-                    <p className="font-semibold">Social Justice Dept, Jaipur</p>
+                    <p className="font-semibold text-sm md:text-base">
+                      {language === 'hi' 
+                        ? 'समाज कल्याण विभाग, देहरादून, उत्तराखंड' 
+                        : 'Social Welfare Dept, Dehradun, Uttarakhand'}
+                    </p>
                   </div>
                 </div>
               </div>

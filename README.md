@@ -28,7 +28,7 @@ Right now, many problems exist, like:
 
 3-No proper tracking of money. 
 
-4-Poor complaint handling
+4-Poor complaint handling. 
 
 This dashboard solves all these problems by bringing everything together in one smart system.
 

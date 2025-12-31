@@ -271,9 +271,13 @@ export type Database = {
           is_disabled: boolean | null
           phone: string
           phone_verified: boolean | null
+          rejection_reason: string | null
           state: string | null
           updated_at: string | null
           user_id: string
+          verification_status: string | null
+          verified_at: string | null
+          verified_by: string | null
         }
         Insert: {
           aadhaar_masked?: string | null
@@ -293,9 +297,13 @@ export type Database = {
           is_disabled?: boolean | null
           phone: string
           phone_verified?: boolean | null
+          rejection_reason?: string | null
           state?: string | null
           updated_at?: string | null
           user_id: string
+          verification_status?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Update: {
           aadhaar_masked?: string | null
@@ -315,9 +323,13 @@ export type Database = {
           is_disabled?: boolean | null
           phone?: string
           phone_verified?: boolean | null
+          rejection_reason?: string | null
           state?: string | null
           updated_at?: string | null
           user_id?: string
+          verification_status?: string | null
+          verified_at?: string | null
+          verified_by?: string | null
         }
         Relationships: []
       }

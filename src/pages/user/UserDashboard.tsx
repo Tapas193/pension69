@@ -11,6 +11,7 @@ import { ProfileEditDialog } from '@/components/user/ProfileEditDialog';
 import { LocationButton } from '@/components/user/LocationButton';
 import { ProfilePictureUpload } from '@/components/user/ProfilePictureUpload';
 import { EmailPhoneVerification } from '@/components/user/EmailPhoneVerification';
+import { VerificationStatusBanner } from '@/components/user/VerificationStatus';
 import { User, Calendar, MapPin, CreditCard, Shield, Mail, Phone } from 'lucide-react';
 
 export default function UserDashboard() {
@@ -79,6 +80,9 @@ export default function UserDashboard() {
         
         <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
+            {/* Verification Status Banner */}
+            <VerificationStatusBanner />
+
             {/* Welcome Section with Profile Picture */}
             <div className="govt-card bg-gradient-to-r from-primary/5 to-secondary/5">
               <div className="flex flex-col sm:flex-row items-center gap-4">

@@ -1,4 +1,5 @@
 URL:https://pensionwelfare.netlify.app/
+*/*
 🏛️ Pension & Welfare Dashboard – 
 
 The Pension & Welfare Dashboard is basically a single online platform made to help people easily track their pension and government welfare benefits and to help the government manage these schemes smoothly.

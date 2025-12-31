@@ -129,9 +129,9 @@ For Government:
 
 ## Round 2 Enhancements
 
-- Life-event–based eligibility suggestions for senior citizens, widows, and disabled users  
-- AI-based grievance prioritization to highlight urgent and long-pending cases  
-- Beneficiary risk indicators to identify missed or delayed payments  
-- Simple AI explanations for payment delays and eligibility status  
-- Offline and low-internet support with cached status and SMS fallback  
-- Visual analytics for administrators to detect high-risk and fraud-prone areas
+- Life-event–based eligibility suggestions for senior citizens, widows, and disabled users. 
+- AI-based grievance prioritization to highlight urgent and long-pending cases .
+- Beneficiary risk indicators to identify missed or delayed payments. 
+- Simple AI explanations for payment delays and eligibility status. 
+- Offline and low-internet support with cached status and SMS fallback.
+- Visual analytics for administrators to detect high-risk and fraud-prone areas.

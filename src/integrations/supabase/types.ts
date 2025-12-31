@@ -257,10 +257,12 @@ export type Database = {
           aadhaar_masked: string | null
           address: string | null
           annual_income: number | null
+          avatar_url: string | null
           bank_account_masked: string | null
           created_at: string | null
           date_of_birth: string | null
           district: string | null
+          email_verified: boolean | null
           employment_status: string | null
           full_name: string
           full_name_hindi: string | null
@@ -268,6 +270,7 @@ export type Database = {
           id: string
           is_disabled: boolean | null
           phone: string
+          phone_verified: boolean | null
           state: string | null
           updated_at: string | null
           user_id: string
@@ -276,10 +279,12 @@ export type Database = {
           aadhaar_masked?: string | null
           address?: string | null
           annual_income?: number | null
+          avatar_url?: string | null
           bank_account_masked?: string | null
           created_at?: string | null
           date_of_birth?: string | null
           district?: string | null
+          email_verified?: boolean | null
           employment_status?: string | null
           full_name: string
           full_name_hindi?: string | null
@@ -287,6 +292,7 @@ export type Database = {
           id?: string
           is_disabled?: boolean | null
           phone: string
+          phone_verified?: boolean | null
           state?: string | null
           updated_at?: string | null
           user_id: string
@@ -295,10 +301,12 @@ export type Database = {
           aadhaar_masked?: string | null
           address?: string | null
           annual_income?: number | null
+          avatar_url?: string | null
           bank_account_masked?: string | null
           created_at?: string | null
           date_of_birth?: string | null
           district?: string | null
+          email_verified?: boolean | null
           employment_status?: string | null
           full_name?: string
           full_name_hindi?: string | null
@@ -306,6 +314,7 @@ export type Database = {
           id?: string
           is_disabled?: boolean | null
           phone?: string
+          phone_verified?: boolean | null
           state?: string | null
           updated_at?: string | null
           user_id?: string

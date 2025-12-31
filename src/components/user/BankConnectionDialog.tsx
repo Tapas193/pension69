@@ -44,12 +44,12 @@ export function BankConnectionDialog() {
       return;
     }
 
-    if (formData.accountNumber.length < 9 || formData.accountNumber.length > 18) {
+    if (formData.accountNumber.length !== 11) {
       toast({
         title: language === 'hi' ? 'त्रुटि' : 'Error',
         description: language === 'hi' 
-          ? 'अमान्य खाता नंबर' 
-          : 'Invalid account number',
+          ? 'खाता नंबर 11 अंकों का होना चाहिए' 
+          : 'Account number must be exactly 11 digits',
         variant: 'destructive',
       });
       return;
@@ -171,10 +171,10 @@ export function BankConnectionDialog() {
               id="accountNumber"
               type="password"
               value={formData.accountNumber}
-              onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value.replace(/\D/g, '') })}
-              placeholder="Enter account number"
+              onChange={(e) => setFormData({ ...formData, accountNumber: e.target.value.replace(/\D/g, '').slice(0, 11) })}
+              placeholder="Enter 11-digit account number"
               className="h-12 text-base"
-              maxLength={18}
+              maxLength={11}
               required
             />
           </div>
@@ -186,10 +186,10 @@ export function BankConnectionDialog() {
             <Input
               id="confirmAccountNumber"
               value={formData.confirmAccountNumber}
-              onChange={(e) => setFormData({ ...formData, confirmAccountNumber: e.target.value.replace(/\D/g, '') })}
-              placeholder="Re-enter account number"
+              onChange={(e) => setFormData({ ...formData, confirmAccountNumber: e.target.value.replace(/\D/g, '').slice(0, 11) })}
+              placeholder="Re-enter 11-digit account number"
               className="h-12 text-base"
-              maxLength={18}
+              maxLength={11}
               required
             />
           </div>

@@ -9,7 +9,9 @@ import { StatusBadge } from '@/components/user/StatusBadge';
 import { BankConnectionDialog } from '@/components/user/BankConnectionDialog';
 import { ProfileEditDialog } from '@/components/user/ProfileEditDialog';
 import { LocationButton } from '@/components/user/LocationButton';
-import { User, Calendar, MapPin, CreditCard, Shield } from 'lucide-react';
+import { ProfilePictureUpload } from '@/components/user/ProfilePictureUpload';
+import { EmailPhoneVerification } from '@/components/user/EmailPhoneVerification';
+import { User, Calendar, MapPin, CreditCard, Shield, Mail, Phone } from 'lucide-react';
 
 export default function UserDashboard() {
   const { t, language } = useLanguage();
@@ -77,19 +79,22 @@ export default function UserDashboard() {
         
         <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
-            {/* Welcome Section */}
+            {/* Welcome Section with Profile Picture */}
             <div className="govt-card bg-gradient-to-r from-primary/5 to-secondary/5">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center">
-                  <User className="w-8 h-8 text-primary-foreground" />
-                </div>
-                <div>
+              <div className="flex flex-col sm:flex-row items-center gap-4">
+                <ProfilePictureUpload />
+                <div className="text-center sm:text-left">
                   <p className="text-muted-foreground">{t('welcome')}</p>
                   <h1 className="text-2xl font-bold text-foreground">
                     {language === 'hi' && profile?.full_name_hindi 
                       ? profile.full_name_hindi 
                       : profile?.full_name || 'User'}
                   </h1>
+                  {/* Verification Badges */}
+                  <div className="flex flex-wrap gap-2 mt-2 justify-center sm:justify-start">
+                    <EmailPhoneVerification type="email" />
+                    <EmailPhoneVerification type="phone" />
+                  </div>
                 </div>
               </div>
             </div>

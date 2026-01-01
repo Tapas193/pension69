@@ -10,7 +10,8 @@ import {
   HelpCircle,
   LogOut,
   Bot,
-  CheckSquare
+  CheckSquare,
+  Shield
 } from 'lucide-react';
 
 const menuItems = [
@@ -24,8 +25,8 @@ const menuItems = [
 ];
 
 export function UserSidebar() {
-  const { t } = useLanguage();
-  const { signOut, profile } = useAuth();
+  const { t, language } = useLanguage();
+  const { signOut, profile, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -65,6 +66,21 @@ export function UserSidebar() {
             </button>
           );
         })}
+        
+        {/* Admin Panel Link */}
+        {isAdmin && (
+          <button
+            onClick={() => navigate('/admin')}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors ${
+              location.pathname === '/admin' 
+                ? 'bg-primary text-primary-foreground' 
+                : 'bg-destructive/10 hover:bg-destructive/20 text-destructive'
+            }`}
+          >
+            <Shield className="w-5 h-5" />
+            <span className="font-medium">{language === 'hi' ? 'व्यवस्थापक पैनल' : 'Admin Panel'}</span>
+          </button>
+        )}
       </nav>
 
       {/* Logout */}

@@ -5,7 +5,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/integrations/supabase/client';
 import { GovtHeader } from '@/components/layout/GovtHeader';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import {
@@ -15,11 +14,11 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { GrievanceManagement } from '@/components/admin/GrievanceManagement';
+import { SchemeManagement } from '@/components/admin/SchemeManagement';
 import { 
   Users, 
   CreditCard, 
-  FileText, 
-  AlertTriangle, 
   MessageSquare,
   CheckCircle,
   XCircle,
@@ -30,7 +29,8 @@ import {
   Menu,
   X,
   Eye,
-  Loader2
+  Loader2,
+  FileText
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -231,6 +231,7 @@ export default function AdminDashboard() {
     { key: 'dashboard', icon: LayoutDashboard, label: language === 'hi' ? 'डैशबोर्ड' : 'Dashboard' },
     { key: 'verification', icon: UserCheck, label: language === 'hi' ? 'उपयोगकर्ता सत्यापन' : 'User Verification' },
     { key: 'grievances', icon: MessageSquare, label: language === 'hi' ? 'शिकायतें' : 'Grievances' },
+    { key: 'schemes', icon: FileText, label: language === 'hi' ? 'योजना प्रबंधन' : 'Scheme Management' },
   ];
 
   if (authLoading) {
@@ -503,20 +504,9 @@ export default function AdminDashboard() {
             </div>
           )}
 
-          {activeTab === 'grievances' && (
-            <div className="space-y-6 animate-fade-in">
-              <div>
-                <h1 className="text-2xl md:text-3xl font-bold">{language === 'hi' ? 'शिकायत प्रबंधन' : 'Grievance Management'}</h1>
-                <p className="text-muted-foreground">{language === 'hi' ? 'उपयोगकर्ता शिकायतों की समीक्षा और समाधान करें' : 'Review and resolve user grievances'}</p>
-              </div>
+          {activeTab === 'grievances' && <GrievanceManagement />}
 
-              <div className="govt-card text-center py-12">
-                <MessageSquare className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">{language === 'hi' ? 'जल्द आ रहा है' : 'Coming Soon'}</h3>
-                <p className="text-muted-foreground">{language === 'hi' ? 'शिकायत प्रबंधन सुविधा जल्द उपलब्ध होगी' : 'Grievance management feature will be available soon'}</p>
-              </div>
-            </div>
-          )}
+          {activeTab === 'schemes' && <SchemeManagement />}
         </main>
       </div>
 

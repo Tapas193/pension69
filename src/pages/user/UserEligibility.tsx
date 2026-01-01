@@ -382,14 +382,18 @@ export default function UserEligibility() {
             <div className="govt-card">
               {renderStep()}
               
-              {step < 6 && step > 1 && step !== 3 && step !== 4 && (
+              {step < 6 && step !== 3 && step !== 4 && (
                 <div className="flex justify-between mt-6">
-                  <Button
-                    variant="outline"
-                    onClick={() => setStep(step - 1)}
-                  >
-                    {t('back')}
-                  </Button>
+                  {step > 1 ? (
+                    <Button
+                      variant="outline"
+                      onClick={() => setStep(step - 1)}
+                    >
+                      {t('back')}
+                    </Button>
+                  ) : (
+                    <div />
+                  )}
                   <Button
                     onClick={() => setStep(step + 1)}
                     disabled={

@@ -8,7 +8,7 @@ Instead of running from office to office or dealing with paperwork, everything i
 
 🌱 What is the main idea?
 
-The main idea is very simple:
+The main idea is very simple:-
 
 1-People should get their pension and benefits on time. 
 

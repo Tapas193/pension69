@@ -11,12 +11,14 @@ import {
   LogOut,
   Bot,
   CheckSquare,
-  Shield
+  Shield,
+  Search
 } from 'lucide-react';
 
 const menuItems = [
   { key: 'profile', icon: User, path: '/user' },
   { key: 'schemes', icon: FileText, path: '/user/schemes' },
+  { key: 'browseSchemes', icon: Search, path: '/user/browse-schemes' },
   { key: 'payments', icon: CreditCard, path: '/user/payments' },
   { key: 'checkEligibility', icon: CheckSquare, path: '/user/eligibility' },
   { key: 'grievances', icon: MessageSquare, path: '/user/grievances' },

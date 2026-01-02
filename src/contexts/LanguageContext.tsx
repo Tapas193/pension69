@@ -45,6 +45,7 @@ const translations: Translations = {
   raiseGrievance: { en: 'Raise Grievance', hi: 'शिकायत दर्ज करें' },
   checkEligibility: { en: 'Check Eligibility', hi: 'पात्रता जांचें' },
   talkToBot: { en: 'Talk to Assistant', hi: 'सहायक से बात करें' },
+  browseSchemes: { en: 'Browse Schemes', hi: 'योजनाएं देखें' },
   
   // Status
   active: { en: 'Active', hi: 'सक्रिय' },

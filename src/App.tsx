@@ -16,6 +16,7 @@ import UserGrievances from "./pages/user/UserGrievances";
 import UserEligibility from "./pages/user/UserEligibility";
 import UserAssistant from "./pages/user/UserAssistant";
 import UserHelp from "./pages/user/UserHelp";
+import UserBrowseSchemes from "./pages/user/UserBrowseSchemes";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ function AppRoutes() {
       <Route path="/user/eligibility" element={<ProtectedRoute><UserEligibility /></ProtectedRoute>} />
       <Route path="/user/assistant" element={<ProtectedRoute><UserAssistant /></ProtectedRoute>} />
       <Route path="/user/help" element={<ProtectedRoute><UserHelp /></ProtectedRoute>} />
+      <Route path="/user/browse-schemes" element={<ProtectedRoute><UserBrowseSchemes /></ProtectedRoute>} />
       
       {/* Admin Routes */}
       <Route path="/admin" element={<ProtectedRoute requireAdmin><AdminDashboard /></ProtectedRoute>} />

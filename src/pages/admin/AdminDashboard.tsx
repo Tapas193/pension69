@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/dialog';
 import { GrievanceManagement } from '@/components/admin/GrievanceManagement';
 import { SchemeManagement } from '@/components/admin/SchemeManagement';
+import { AdminNotifications } from '@/components/admin/AdminNotifications';
 import { 
   Users, 
   CreditCard, 
@@ -30,7 +31,8 @@ import {
   X,
   Eye,
   Loader2,
-  FileText
+  FileText,
+  Bell
 } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -232,6 +234,7 @@ export default function AdminDashboard() {
     { key: 'verification', icon: UserCheck, label: language === 'hi' ? 'उपयोगकर्ता सत्यापन' : 'User Verification' },
     { key: 'grievances', icon: MessageSquare, label: language === 'hi' ? 'शिकायतें' : 'Grievances' },
     { key: 'schemes', icon: FileText, label: language === 'hi' ? 'योजना प्रबंधन' : 'Scheme Management' },
+    { key: 'notifications', icon: Bell, label: language === 'hi' ? 'सूचनाएं' : 'Notifications' },
   ];
 
   if (authLoading) {
@@ -507,6 +510,8 @@ export default function AdminDashboard() {
           {activeTab === 'grievances' && <GrievanceManagement />}
 
           {activeTab === 'schemes' && <SchemeManagement />}
+
+          {activeTab === 'notifications' && <AdminNotifications />}
         </main>
       </div>
 

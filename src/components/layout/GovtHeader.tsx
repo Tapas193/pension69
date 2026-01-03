@@ -1,8 +1,11 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { LanguageToggle } from '@/components/ui/language-toggle';
+import { NotificationBell } from '@/components/user/NotificationBell';
 import { Shield } from 'lucide-react';
 
 export function GovtHeader() {
+  const { user } = useAuth();
   const { t } = useLanguage();
   
   return (
@@ -18,6 +21,7 @@ export function GovtHeader() {
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
+          {user && <NotificationBell />}
           <LanguageToggle />
         </div>
       </div>

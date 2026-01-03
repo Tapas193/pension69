@@ -1,7 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
-
+import { useLanguage } from '@/contexts/LanguageContext';
+import { toast } from '@/hooks/use-toast';
 interface Notification {
   id: string;
   title: string;
@@ -16,6 +17,7 @@ interface Notification {
 
 export function useRealtimeNotifications() {
   const { user } = useAuth();
+  const { language } = useLanguage();
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -102,6 +104,19 @@ export function useRealtimeNotifications() {
           const newNotification = payload.new as Notification;
           setNotifications(prev => [newNotification, ...prev]);
           setUnreadCount(prev => prev + 1);
+          
+          // Show toast alert for new notification
+          const title = language === 'hi' && newNotification.title_hindi 
+            ? newNotification.title_hindi 
+            : newNotification.title;
+          const message = language === 'hi' && newNotification.message_hindi 
+            ? newNotification.message_hindi 
+            : newNotification.message;
+          
+          toast({
+            title: `🔔 ${title}`,
+            description: message,
+          });
         }
       )
       .on(

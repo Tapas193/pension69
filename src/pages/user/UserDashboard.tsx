@@ -12,6 +12,9 @@ import { LocationButton } from '@/components/user/LocationButton';
 import { ProfilePictureUpload } from '@/components/user/ProfilePictureUpload';
 import { EmailPhoneVerification } from '@/components/user/EmailPhoneVerification';
 import { VerificationStatusBanner } from '@/components/user/VerificationStatus';
+import { LifeEventSuggestions } from '@/components/user/LifeEventSuggestions';
+import { PaymentRiskIndicator } from '@/components/user/PaymentRiskIndicator';
+import { OfflineIndicator } from '@/components/user/OfflineIndicator';
 import { User, Calendar, MapPin, CreditCard, Shield, Mail, Phone } from 'lucide-react';
 
 export default function UserDashboard() {
@@ -80,8 +83,14 @@ export default function UserDashboard() {
         
         <main className="flex-1 p-4 md:p-8 pb-20 md:pb-8">
           <div className="max-w-4xl space-y-6 animate-fade-in">
+            {/* Offline Indicator */}
+            <OfflineIndicator />
+
             {/* Verification Status Banner */}
             <VerificationStatusBanner />
+
+            {/* Life Event Suggestions */}
+            <LifeEventSuggestions />
 
             {/* Welcome Section with Profile Picture */}
             <div className="govt-card bg-gradient-to-r from-primary/5 to-secondary/5">
@@ -227,6 +236,11 @@ export default function UserDashboard() {
                 ) : (
                   <p className="text-muted-foreground">No payments yet</p>
                 )}
+                
+                {/* Payment Risk Indicator */}
+                <div className="mt-4">
+                  <PaymentRiskIndicator />
+                </div>
               </div>
             </div>
           </div>
